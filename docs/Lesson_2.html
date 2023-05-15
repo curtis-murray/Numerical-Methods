@@ -389,7 +389,7 @@ Note
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.13    0.00    0.13 </code></pre>
+   0.12    0.00    0.13 </code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -400,7 +400,7 @@ Note
       0       0       0 </code></pre>
 </div>
 </div>
-<p>Uh-oh! Our function took 0.14s, but the base environment took 0.00s (rounded to 2 decimal places). Our function is SLOW :(. I’m not exactly sure how the <code>length</code> function was implemented in R, but they likely did something smart, like check how big the memory block was for the object <code>1:1e7</code>. This is like turning a book to its last page and reading the page number. So while our loop would have run the line <code>running_total &lt;- running_total + 1</code> 10000000 times, their code probably just did one simple operation. This touches on a concept called <strong>computational complexity</strong>, but we can shelve that for another day and see a few more basic algorithms first.</p>
+<p>Uh-oh! Our function took around 0.1s, but the base environment took basically no time (rounded to 2 decimal places). Our function is orders of magnitude slower :(. I’m not exactly sure how the <code>length</code> function was implemented in R, but they likely did something smart, like check how big the memory block was for the object <code>1:1e7</code>. This is like turning a book to its last page and reading the page number. So while our loop would have run the line <code>running_total &lt;- running_total + 1</code> 10000000 times, their code probably just did one simple operation. This touches on a concept called <strong>computational complexity</strong>, but we can shelve that for another day and see a few more basic algorithms first.</p>
 </section>
 </section>
 <section id="sum" class="level2" data-number="4.3">
@@ -497,7 +497,7 @@ Note
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.19    0.00    0.19 </code></pre>
+   0.20    0.00    0.21 </code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -505,7 +505,7 @@ Note
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.14    0.00    0.14 </code></pre>
+   0.13    0.00    0.12 </code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -516,8 +516,8 @@ Note
       0       0       0 </code></pre>
 </div>
 </div>
-<p>We can see that the first function, <code>basic_sum,</code> took the longest. The second function, <code>alternative_basic_sum,</code> was completed in about half the time. It is faster because fewer operations need to occur than the function <code>basic_sum</code>. Instead of finding the length of the vector, finding the indices, and indexing the vector by the indices, we simply loop over the elements. There are fewer steps for the computer to take, and hence, executes faster.</p>
-<p>Of course, the base function <code>sum</code> completely demolishes our feeble attempt at writing the summation function. Fear not; our attempts are not futile. This is our first introduction to algorithms; we should not expect to challenge grand wizards without experience and emerge victorious.</p>
+<p>We can see that the first function, <code>basic_sum,</code> took the longest. The second function, <code>alternative_basic_sum,</code> was completed in less time. It is faster because fewer operations need to occur than the function <code>basic_sum</code>. Instead of finding the length of the vector, finding the indices, and indexing the vector by the indices, we simply loop over the elements. There are fewer steps for the computer to take, and hence, executes faster.</p>
+<p>Of course, the base function <code>sum</code> completely demolishes our feeble attempt at writing the summation function. Fear not; our attempts are not futile. This is our first introduction to algorithms; we should not expect to challenge grand coding wizards without experience and emerge victorious.</p>
 </section>
 </section>
 <section id="min" class="level2" data-number="4.4">
