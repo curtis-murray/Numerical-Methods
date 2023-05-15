@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Numerical Methods - 3&nbsp; An Introduction to R Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Lesson_2.html" rel="next">
+<link href="./summary.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">An Introduction to R Programming</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Numerical Methods</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/curtis-murray" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Numerical-Methods.pdf">
+            <i class="bi bi-bi-file-pdf pe-1"></i>
+          Download PDF
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Numerical-Methods.epub">
+            <i class="bi bi-bi-journal pe-1"></i>
+          Download ePub
+          </a>
+        </li>
+    </ul>
+    <a href="" title="Share" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+            <i class="bi bi-bi-twitter pe-1"></i>
+          Twitter
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+            <i class="bi bi-bi-facebook pe-1"></i>
+          Facebook
+          </a>
+        </li>
+    </ul>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lesson_1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">An Introduction to R Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lesson_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic Algorithms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#variables" id="toc-variables" class="nav-link active" data-scroll-target="#variables"><span class="toc-section-number">3.1</span>  Variables</a></li>
+  <li><a href="#variable-types" id="toc-variable-types" class="nav-link" data-scroll-target="#variable-types"><span class="toc-section-number">3.2</span>  Variable Types</a>
+  <ul class="collapse">
+  <li><a href="#strings" id="toc-strings" class="nav-link" data-scroll-target="#strings"><span class="toc-section-number">3.2.1</span>  Strings</a></li>
+  <li><a href="#numeric-type-and-operators" id="toc-numeric-type-and-operators" class="nav-link" data-scroll-target="#numeric-type-and-operators"><span class="toc-section-number">3.2.2</span>  Numeric Type and Operators</a></li>
+  <li><a href="#logical-type-and-operators" id="toc-logical-type-and-operators" class="nav-link" data-scroll-target="#logical-type-and-operators"><span class="toc-section-number">3.2.3</span>  Logical Type and Operators</a></li>
+  </ul></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="toc-section-number">3.3</span>  Vectors</a></li>
+  <li><a href="#if-statements" id="toc-if-statements" class="nav-link" data-scroll-target="#if-statements"><span class="toc-section-number">3.4</span>  If Statements</a></li>
+  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="toc-section-number">3.5</span>  For Loops</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="toc-section-number">3.6</span>  Functions</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">3.7</span>  Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1"><span class="toc-section-number">3.7.1</span>  Exercise 1</a></li>
+  <li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution"><span class="toc-section-number">3.7.2</span>  Solution</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">An Introduction to R Programming</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>In this first lesson, we will learn about a few different concepts in coding.</p>
+<section id="variables" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="variables"><span class="header-section-number">3.1</span> Variables</h2>
+<p>A <strong>variable</strong> in R is an object that takes a <strong>value</strong>. This is similar to a variable in mathematics, for example, <span class="math inline">\(x = 3\)</span>. However, in R, a variable can be more things than just a number! A variable can take a <strong>numeric</strong>, a <strong>string</strong>, a <strong>logical</strong> (like <code>TRUE</code> or <code>FALSE</code>), and even a <strong>function</strong>!</p>
+<p>To <strong>assign</strong> a <em>value</em> to a variable, we use the <em>assignment operator</em> <code>&lt;-</code>, together with the variable name and the value we want to assign to the variable.</p>
+<p>For example, for the assignment of the <em>string</em> <code>"Ollie"</code> to the variable <code>cat</code> – this is just the variable name – we write the following:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>cat <span class="ot">&lt;-</span> <span class="st">"Ollie"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The variable <code>cat</code> stores the string <code>"Ollie"</code> in the computer’s memory. When we <em>call</em> the variable, it will <em>return</em> its value.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>cat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Ollie"</code></pre>
+</div>
+</div>
+<p>Notice that the string is wrapped in quotation marks, and the variable is not. This is important to remember as if you forget to wrap a string in quotes, R will think it’s a variable, and if you wrap a variable in quotes, R will think it’s a string:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="st">"cat"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "cat"</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>Ollie</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-error">
+<pre><code>Error in eval(expr, envir, enclos): object 'Ollie' not found</code></pre>
+</div>
+</div>
+</section>
+<section id="variable-types" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="variable-types"><span class="header-section-number">3.2</span> Variable Types</h2>
+<section id="strings" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="strings"><span class="header-section-number">3.2.1</span> Strings</h3>
+<p>We saw strings above!</p>
+</section>
+<section id="numeric-type-and-operators" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="numeric-type-and-operators"><span class="header-section-number">3.2.2</span> Numeric Type and Operators</h3>
+<p>We have seen that a variable can be a string, i.e., a sequence of characters. Now let’s see a <strong>numeric</strong> variable.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>age <span class="ot">&lt;-</span> <span class="dv">85</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 85</code></pre>
+</div>
+</div>
+<p>We can perform standard mathematical operations on numeric variables.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Powers</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>age<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7225</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Multiplication</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>age<span class="sc">*</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 170</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Subtraction</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>age<span class="dv">-10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 75</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Addition</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>age<span class="sc">+</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 90</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Division</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>age<span class="sc">/</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17</code></pre>
+</div>
+</div>
+<p>We can perform a complex calculation with logarithms and <span class="math inline">\(\pi\)</span>, written in R as <code>pi</code>.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>(<span class="fu">log</span>(age) <span class="sc">+</span> <span class="dv">100</span><span class="sc">*</span>pi)<span class="sc">/</span><span class="dv">1000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3186019</code></pre>
+</div>
+</div>
+<p>Another operator is the <em>remainder after division</em> operator <code>%%</code></p>
+<p>For example, the remainder of division of <span class="math inline">\(100\)</span> by <span class="math inline">\(3\)</span> is <span class="math inline">\(1\)</span>, since <span class="math inline">\(100 \text{ mod }3 \equiv 1\)</span></p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>age <span class="sc">%%</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>We can also store the result of one calculation in a variable!</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>age_last_year <span class="ot">&lt;-</span> age<span class="dv">-1</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>age_last_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 84</code></pre>
+</div>
+</div>
+<p>This is an incredibly useful feature of programming languages, as it allows you to build up a series of operations to perform powerful computations.</p>
+</section>
+<section id="logical-type-and-operators" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="logical-type-and-operators"><span class="header-section-number">3.2.3</span> Logical Type and Operators</h3>
+<p><strong>Logical</strong> variables, like <code>TRUE</code> and <code>FALSE</code>, as they suggest, tell us if something is true or false.</p>
+<p>For example, we can check for equality with the <strong>equal to operator</strong> <code>==</code>.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="dv">2</span> <span class="sc">==</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>cat <span class="sc">==</span> <span class="st">"Ollie"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>cat <span class="sc">==</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>The result of the statement with an equality operator is a logical type that tells us whether or not the statement was <code>TRUE</code> or <code>FALSE</code>.</p>
+<p>Similary, there is the <strong>not equal to</strong> operator <code>!=</code>, and inequality operators <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, and <code>&gt;=</code>.</p>
+<p>There are special logical operators that take logicals and return logicals. An example is the <strong>AND</strong> operator <code>&amp;</code>.</p>
+<p>The <strong>AND</strong> operator takes two inputs, for example, <code>A</code> and <code>B</code>. <code>A &amp; B</code> will be <code>TRUE</code> if <code>A</code> <code>AND</code> <code>B</code> are <code>TRUE</code>, and <code>FALSE</code> otherwise, hence the name.</p>
+<p>Below is a table of common operators.</p>
+<table class="table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&amp;</code></td>
+<td>Logical AND</td>
+<td>A &amp; B</td>
+<td>TRUE if both A and B are TRUE, FALSE otherwise</td>
+</tr>
+<tr class="even">
+<td><code>|</code></td>
+<td>Logical OR</td>
+<td>A | B</td>
+<td>TRUE if either A or B is TRUE, FALSE otherwise</td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td>Logical NOT</td>
+<td>!A</td>
+<td>TRUE if A is FALSE, FALSE if A is TRUE</td>
+</tr>
+<tr class="even">
+<td><code>&amp;&amp;</code></td>
+<td>Short-circuit AND</td>
+<td>A &amp;&amp; B</td>
+<td>TRUE if both A and B are TRUE, FALSE otherwise. B is not evaluated if A is FALSE.</td>
+</tr>
+<tr class="odd">
+<td><code>||</code></td>
+<td>Short-circuit OR</td>
+<td>A || B</td>
+<td>TRUE if either A or B is TRUE, FALSE otherwise. B is not evaluated if A is TRUE.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="vectors" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="vectors"><span class="header-section-number">3.3</span> Vectors</h2>
+<p>In R, a vector is a collection of elements of the same data type. A vector can be created using the <code>c()</code> function. A good way to remember this is you take a <code>c</code>ollection. Here are some examples:</p>
+<p>Creating a vector of integers from 1 to 10:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>one_to_ten <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>one_to_ten</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+</div>
+<p>Creating a vector of strings:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"orange"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2"></a>fruits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"  "banana" "orange"</code></pre>
+</div>
+</div>
+<p>Creating a vector using the seq() function:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>odd_numbers_below_ten <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb36-2"><a href="#cb36-2"></a>odd_numbers_below_ten</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 3 5 7 9</code></pre>
+</div>
+</div>
+<p>Vectors are an important data structure in R and are used extensively in data analysis and statistical modeling. They can be operated on using various functions and operators, including arithmetic operators, logical operators, and mathematical functions.</p>
+<p>For example, we can do element-wise mathematical operations</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>one_to_ten <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  2  3  4  5  6  7  8  9 10 11</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>one_to_ten<span class="sc">*</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  2  4  6  8 10 12 14 16 18 20</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>one_to_ten<span class="sc">/</span>(one_to_ten<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1.0000000 0.5000000 0.3333333 0.2500000 0.2000000 0.1666667 0.1428571
+ [8] 0.1250000 0.1111111 0.1000000</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>one_to_ten<span class="sc">%%</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 0 1 0 1 0 1 0 1 0</code></pre>
+</div>
+</div>
+<p>We can access elements of a vector using square bracket notation <code>[]</code> and specifying the index of the element we want to retrieve.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>fruits[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"</code></pre>
+</div>
+</div>
+<p>We can pass in a vector of indices as well! In the below example, we say we want the first two elements of the <code>fruits</code> vector.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>fruits[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"  "banana"</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>fruits[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"  "banana"</code></pre>
+</div>
+</div>
+<p>What happens if we pass in the indices in a different order, e.g., instead of <code>fruits[c(1,2)]</code>, we put in <code>fruits[c(2,1)]</code>? What do you think will happen? Try it yourself. Does the result make sense?</p>
+<p>We can add a new element to a vector:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>fruits[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">"mango"</span></span>
+<span id="cb52-2"><a href="#cb52-2"></a>fruits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"  "banana" "orange" "mango" </code></pre>
+</div>
+</div>
+</section>
+<section id="if-statements" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="if-statements"><span class="header-section-number">3.4</span> If Statements</h2>
+<p>In R, <strong>if statements</strong> give a way to <em>execute</em> (run) code only <em>if</em> a logical <strong>condition</strong> is met. This is a powerful way to model a process that has multiple branches depending on its input. For example, in Spring, we may buy strawberries.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>season <span class="ot">&lt;-</span> <span class="st">"spring"</span></span>
+<span id="cb54-2"><a href="#cb54-2"></a></span>
+<span id="cb54-3"><a href="#cb54-3"></a><span class="cf">if</span>(season <span class="sc">==</span> <span class="st">"spring"</span>){</span>
+<span id="cb54-4"><a href="#cb54-4"></a>  <span class="fu">print</span>(<span class="st">"I'm going to buy strawberries"</span>)</span>
+<span id="cb54-5"><a href="#cb54-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "I'm going to buy strawberries"</code></pre>
+</div>
+</div>
+<p>What about if it isn’t Spring?</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>season <span class="ot">&lt;-</span> <span class="st">"autumn"</span></span>
+<span id="cb56-2"><a href="#cb56-2"></a></span>
+<span id="cb56-3"><a href="#cb56-3"></a><span class="cf">if</span>(season <span class="sc">==</span> <span class="st">"spring"</span>){</span>
+<span id="cb56-4"><a href="#cb56-4"></a>  <span class="fu">print</span>(<span class="st">"I'm going to buy strawberries :D"</span>)</span>
+<span id="cb56-5"><a href="#cb56-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Nothing happens!</p>
+<p>We may want to specific the behavior for when the condition in the if statement is <em>not</em> met. To do this, we can add an <strong>else</strong> statement.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>season <span class="ot">&lt;-</span> <span class="st">"autumn"</span></span>
+<span id="cb57-2"><a href="#cb57-2"></a></span>
+<span id="cb57-3"><a href="#cb57-3"></a><span class="cf">if</span>(season <span class="sc">==</span> <span class="st">"spring"</span>){</span>
+<span id="cb57-4"><a href="#cb57-4"></a>  <span class="fu">print</span>(<span class="st">"I'm going to buy strawberries :D"</span>)</span>
+<span id="cb57-5"><a href="#cb57-5"></a>}<span class="cf">else</span>{</span>
+<span id="cb57-6"><a href="#cb57-6"></a>  <span class="fu">print</span>(<span class="st">"I'm not going to buy strawberries :'("</span>)</span>
+<span id="cb57-7"><a href="#cb57-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "I'm not going to buy strawberries :'("</code></pre>
+</div>
+</div>
+<p>We will see more examples of if statements in the following section.</p>
+</section>
+<section id="for-loops" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="for-loops"><span class="header-section-number">3.5</span> For Loops</h2>
+<p>Introduction In R programming, loops are a powerful tool that allow you to repeat a sequence of code multiple times. A for loop is a type of loop that is used to execute a block of code repeatedly based on a given number of iterations. <code>for</code> loops are particularly useful when you want to perform the same action on each element in a vector or list.</p>
+<p>In the following example, for each <code>fruit in our</code>fruits` vector, we print the fruit.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="cf">for</span>(fruit <span class="cf">in</span> fruits){</span>
+<span id="cb59-2"><a href="#cb59-2"></a>  <span class="fu">print</span>(fruit)</span>
+<span id="cb59-3"><a href="#cb59-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"
+[1] "banana"
+[1] "orange"
+[1] "mango"</code></pre>
+</div>
+</div>
+<p>Notice that the <strong>syntax</strong> (the specific way we specify the code) reads very similar to the English used to describe its behavior. When we run the for loop, the code inside the curly braces <code>{}</code> is run for each element (fruit) in the vector we iterate over (fruits). Initially, the <em>loop iterator variable</em> <code>fruit</code> takes the value of the first element of the <code>fruits</code> vector. Once the code inside the braces has been executed, it repeats, but <code>fruit</code> becomes the second element of the <code>fruits</code> vector. We do not actually need to call this variable <code>fruit</code>. We can call it whatever we want!</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="cf">for</span>(dog <span class="cf">in</span> fruits){</span>
+<span id="cb61-2"><a href="#cb61-2"></a>  <span class="fu">print</span>(dog)</span>
+<span id="cb61-3"><a href="#cb61-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"
+[1] "banana"
+[1] "orange"
+[1] "mango"</code></pre>
+</div>
+</div>
+<p>It is useful to give this iterator a useful name, though calling it <code>dog</code> in this instance would be bad practice, as it does not describe itself!</p>
+<p>A more complex example that checks if each integer between one to twenty is divisible by three can be formulated by <em>nesting</em> an if statement inside the <code>for</code> loop. Here, nesting is a fancy way of saying that the if statement is within the for loop.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>){   <span class="co"># Loop over integers from 1 to 20</span></span>
+<span id="cb63-2"><a href="#cb63-2"></a>  <span class="cf">if</span>(i <span class="sc">%%</span> <span class="dv">3</span> <span class="sc">==</span> <span class="dv">0</span>){ <span class="co"># This checks if a number is divisible by 3</span></span>
+<span id="cb63-3"><a href="#cb63-3"></a>    <span class="fu">print</span>(i)       <span class="co"># Prints the number if the condition is true</span></span>
+<span id="cb63-4"><a href="#cb63-4"></a>  }</span>
+<span id="cb63-5"><a href="#cb63-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3
+[1] 6
+[1] 9
+[1] 12
+[1] 15
+[1] 18</code></pre>
+</div>
+</div>
+<p>Notice that we do this in a <em>vectorised</em> way without the need for loops.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">20</span> <span class="sc">%%</span> <span class="dv">3</span> <span class="sc">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
+[13] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+</div>
+</div>
+<p>Typically, vectorised statements in R are faster than equivalent code using loops, so when possible, it’s a good idea to vectorise!</p>
+<p>We can also nest a for loop inside a for loop.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">20</span>){</span>
+<span id="cb67-2"><a href="#cb67-2"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb67-3"><a href="#cb67-3"></a>    <span class="cf">if</span>(i <span class="sc">%%</span> j <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb67-4"><a href="#cb67-4"></a>      <span class="fu">print</span>(<span class="fu">paste</span>(i, <span class="st">"mod "</span>, j, <span class="st">"= 0"</span>))</span>
+<span id="cb67-5"><a href="#cb67-5"></a>  }</span>
+<span id="cb67-6"><a href="#cb67-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "10 mod  5 = 0"
+[1] "12 mod  3 = 0"
+[1] "12 mod  4 = 0"
+[1] "15 mod  3 = 0"
+[1] "15 mod  5 = 0"
+[1] "16 mod  4 = 0"
+[1] "18 mod  3 = 0"
+[1] "20 mod  4 = 0"
+[1] "20 mod  5 = 0"</code></pre>
+</div>
+</div>
+<p>In this example, we used the <code>paste()</code> function to create a string by <em>pasting</em> together its inputs.</p>
+</section>
+<section id="functions" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="functions"><span class="header-section-number">3.6</span> Functions</h2>
+<p>Sometimes we want to execute code multiple times but under different conditions. We can use a <strong>function</strong> to <em>transform</em> an <em>input</em> to an <em>output</em> using a consistent <em>method</em> or <em>recipe</em>. We actually just saw a function, <code>paste</code>. This function takes string inputs and glues them together into a single string. We can create our own functions too! For example, may want to create a chatbot that can respond differently based on its inputs.</p>
+<p>Let’s build an (extremely) basic chatbot.</p>
+<p>First, let’s just get the chatbot to repeat what we told it.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a>chatbot <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
+<span id="cb69-2"><a href="#cb69-2"></a>  output <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"You said, '"</span>, input, <span class="st">"'."</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb69-3"><a href="#cb69-3"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb69-4"><a href="#cb69-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>We make use of the <code>paste</code> function to have the chatbot say “You said” and then repeat what we said. The function takes an <em>input</em> that we have called <code>input</code> (you can call it something else too) and <em>returns</em> (or outputs) the <code>output</code> variable that we made. The function is saved in the variable <code>chatbot.</code></p>
+<p>To use the function, we pass an input inside curly braces <code>()</code>.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="fu">chatbot</span>(<span class="st">"Hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "You said, 'Hello'."</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="fu">chatbot</span>(<span class="st">"Goodbye"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "You said, 'Goodbye'."</code></pre>
+</div>
+</div>
+<p>Note that we defined the function using informative names. We could have defined the function like this:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>i <span class="ot">&lt;-</span> <span class="cf">function</span>(j){</span>
+<span id="cb74-2"><a href="#cb74-2"></a>  k <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"You said, '"</span>, j, <span class="st">"'."</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb74-3"><a href="#cb74-3"></a>  <span class="fu">return</span>(k)</span>
+<span id="cb74-4"><a href="#cb74-4"></a>}</span>
+<span id="cb74-5"><a href="#cb74-5"></a><span class="fu">i</span>(<span class="st">"Hello"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "You said, 'Hello'."</code></pre>
+</div>
+</div>
+<p>But it’s hard for someone reading our code (usually ourselves, six months later, confused to no end) to work out what it does.</p>
+<p>Let’s build a slightly more complicated (but still very basic) chatbot using a <strong>switch</strong> statement. A switch statement will look for the first match. As an exercise, try and see if you can understand the switch statement based on a few of the outputs of our amazing chatbot below.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>amazing_chatbot <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb76-2"><a href="#cb76-2"></a>  response <span class="ot">&lt;-</span> <span class="cf">switch</span>(input,</span>
+<span id="cb76-3"><a href="#cb76-3"></a>                     <span class="st">"hi"</span> <span class="ot">=</span> <span class="st">"Hello!"</span>, <span class="co"># If input is "hi" the response will be "Hello!"</span></span>
+<span id="cb76-4"><a href="#cb76-4"></a>                     <span class="st">"how are you?"</span> <span class="ot">=</span> <span class="st">"I'm doing well, thank you. How about you?"</span>,</span>
+<span id="cb76-5"><a href="#cb76-5"></a>                     <span class="st">"what's your name?"</span> <span class="ot">=</span> <span class="st">"My name is Chatbot. Nice to meet you!"</span>,</span>
+<span id="cb76-6"><a href="#cb76-6"></a>                     <span class="st">"what time is it?"</span> <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"It's"</span>, <span class="fu">format</span>(<span class="fu">Sys.time</span>(), <span class="st">"%H:%M"</span>), <span class="st">"right now."</span>),</span>
+<span id="cb76-7"><a href="#cb76-7"></a>                     <span class="st">"what is R?"</span> <span class="ot">=</span> <span class="st">"R is a programming language used for statistical computing and graphics."</span>,</span>
+<span id="cb76-8"><a href="#cb76-8"></a>                     <span class="st">"what can you do?"</span> <span class="ot">=</span> <span class="st">"I can answer your questions or just chat with you."</span>,</span>
+<span id="cb76-9"><a href="#cb76-9"></a>                     <span class="st">"bye"</span> <span class="ot">=</span> <span class="st">"Goodbye!"</span>,</span>
+<span id="cb76-10"><a href="#cb76-10"></a>                     <span class="st">"see you later"</span> <span class="ot">=</span> <span class="st">"See you later!"</span>,</span>
+<span id="cb76-11"><a href="#cb76-11"></a>                     <span class="st">"thanks"</span> <span class="ot">=</span> <span class="st">"You're welcome!"</span>,</span>
+<span id="cb76-12"><a href="#cb76-12"></a>                     <span class="st">"thank you"</span> <span class="ot">=</span> <span class="st">"You're welcome!"</span>,</span>
+<span id="cb76-13"><a href="#cb76-13"></a>                     <span class="st">"I don't understand :("</span> <span class="co"># Default response</span></span>
+<span id="cb76-14"><a href="#cb76-14"></a>                     )</span>
+<span id="cb76-15"><a href="#cb76-15"></a>  <span class="fu">return</span>(response)</span>
+<span id="cb76-16"><a href="#cb76-16"></a>}</span>
+<span id="cb76-17"><a href="#cb76-17"></a></span>
+<span id="cb76-18"><a href="#cb76-18"></a><span class="co"># Example usage</span></span>
+<span id="cb76-19"><a href="#cb76-19"></a><span class="fu">amazing_chatbot</span>(<span class="st">"hi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hello!"</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a><span class="fu">amazing_chatbot</span>(<span class="st">"what time is it?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "It's 15:51 right now."</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a><span class="fu">amazing_chatbot</span>(<span class="st">"You're smart"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "I don't understand :("</code></pre>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.7</span> Exercises</h2>
+<section id="exercise-1" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="exercise-1"><span class="header-section-number">3.7.1</span> Exercise 1</h3>
+<ol type="1">
+<li>Create function that returns the sea level <span class="math inline">\(s(t)\)</span> at time <span class="math inline">\(t\)</span> defined as <span class="math display">\[
+s(t) = \cos\left(\frac{2 \pi t}{24}\right)
+\]</span> where <span class="math inline">\(t\)</span> is in 24 hour time.</li>
+</ol>
+<p>Hint: <code>cos()</code> is a R function, and <code>pi</code> is <span class="math inline">\(\pi\)</span>.</p>
+<ol start="2" type="1">
+<li><p>Using your function, calculate the sea level at 12 noon.</p></li>
+<li><p>Using a for loop, and your function, calculate the sea level every hour from midnight to midnight.</p></li>
+</ol>
+<p>Hint: What is the vector we should iterate over? What needs to go into the function method?</p>
+<ol start="4" type="1">
+<li>Let’s build on that loop. When the sea level rises above 0.8, let everyone know that the water will be deep!</li>
+</ol>
+<p>Hint: How can you check if something will be true or not? After, try using a print-and-paste statement to say what the depth is and what the time is.</p>
+<ol start="5" type="1">
+<li>It turns out that the people at the beach don’t know 24-hour time. We need to convert the time into AM/PM time for them.</li>
+</ol>
+<p>Hint: We might need to check if it’s before midday or after midday to work out if we use AM or PM and whether or not we should subtract 12. Try using the paste function again!</p>
+</section>
+<section id="solution" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="solution"><span class="header-section-number">3.7.2</span> Solution</h3>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>get_sealevel <span class="ot">&lt;-</span> <span class="cf">function</span>(time){</span>
+<span id="cb82-2"><a href="#cb82-2"></a>  output <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>time<span class="sc">/</span><span class="dv">24</span>)</span>
+<span id="cb82-3"><a href="#cb82-3"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb82-4"><a href="#cb82-4"></a>}</span>
+<span id="cb82-5"><a href="#cb82-5"></a></span>
+<span id="cb82-6"><a href="#cb82-6"></a><span class="fu">get_sealevel</span>(<span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="cf">for</span>(time <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">24</span>){</span>
+<span id="cb84-2"><a href="#cb84-2"></a>  <span class="co"># Get the sea level for the current time</span></span>
+<span id="cb84-3"><a href="#cb84-3"></a>  sealevel <span class="ot">&lt;-</span> <span class="fu">get_sealevel</span>(time)</span>
+<span id="cb84-4"><a href="#cb84-4"></a>  <span class="co"># Uncomment for part 3</span></span>
+<span id="cb84-5"><a href="#cb84-5"></a>  <span class="co">#print(sealevel)</span></span>
+<span id="cb84-6"><a href="#cb84-6"></a>  </span>
+<span id="cb84-7"><a href="#cb84-7"></a>  <span class="co"># Format the time in 12h time</span></span>
+<span id="cb84-8"><a href="#cb84-8"></a>  <span class="cf">if</span>(time <span class="sc">&gt;</span> <span class="dv">12</span>){</span>
+<span id="cb84-9"><a href="#cb84-9"></a>    <span class="co"># Afternoon</span></span>
+<span id="cb84-10"><a href="#cb84-10"></a>    time_12h <span class="ot">=</span> <span class="fu">paste</span>(time<span class="dv">-12</span>, <span class="st">"PM"</span>)</span>
+<span id="cb84-11"><a href="#cb84-11"></a>  }<span class="cf">else</span>{</span>
+<span id="cb84-12"><a href="#cb84-12"></a>    <span class="co"># Morning</span></span>
+<span id="cb84-13"><a href="#cb84-13"></a>      time_12h <span class="ot">=</span> <span class="fu">paste</span>(time,<span class="st">"AM"</span>)</span>
+<span id="cb84-14"><a href="#cb84-14"></a>    }</span>
+<span id="cb84-15"><a href="#cb84-15"></a>  </span>
+<span id="cb84-16"><a href="#cb84-16"></a>  <span class="co"># If the sea level is high!</span></span>
+<span id="cb84-17"><a href="#cb84-17"></a>  <span class="cf">if</span>(sealevel <span class="sc">&gt;</span> <span class="fl">0.8</span>){</span>
+<span id="cb84-18"><a href="#cb84-18"></a>    alert <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"The time is"</span>, time_12h, <span class="st">"and the sea level is getting deep: "</span>, <span class="fu">round</span>(sealevel,<span class="dv">3</span>))</span>
+<span id="cb84-19"><a href="#cb84-19"></a>  }<span class="cf">else</span>{ <span class="co"># If its low!</span></span>
+<span id="cb84-20"><a href="#cb84-20"></a>    alert <span class="ot">&lt;-</span> <span class="fu">paste</span>(time_12h, <span class="st">"is a nice time to swim! The sea level is only"</span>, <span class="fu">round</span>(sealevel,<span class="dv">3</span>))</span>
+<span id="cb84-21"><a href="#cb84-21"></a>  }</span>
+<span id="cb84-22"><a href="#cb84-22"></a>  <span class="fu">print</span>(alert)</span>
+<span id="cb84-23"><a href="#cb84-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "The time is 0 AM and the sea level is getting deep:  1"
+[1] "The time is 1 AM and the sea level is getting deep:  0.966"
+[1] "The time is 2 AM and the sea level is getting deep:  0.866"
+[1] "3 AM is a nice time to swim! The sea level is only 0.707"
+[1] "4 AM is a nice time to swim! The sea level is only 0.5"
+[1] "5 AM is a nice time to swim! The sea level is only 0.259"
+[1] "6 AM is a nice time to swim! The sea level is only 0"
+[1] "7 AM is a nice time to swim! The sea level is only -0.259"
+[1] "8 AM is a nice time to swim! The sea level is only -0.5"
+[1] "9 AM is a nice time to swim! The sea level is only -0.707"
+[1] "10 AM is a nice time to swim! The sea level is only -0.866"
+[1] "11 AM is a nice time to swim! The sea level is only -0.966"
+[1] "12 AM is a nice time to swim! The sea level is only -1"
+[1] "1 PM is a nice time to swim! The sea level is only -0.966"
+[1] "2 PM is a nice time to swim! The sea level is only -0.866"
+[1] "3 PM is a nice time to swim! The sea level is only -0.707"
+[1] "4 PM is a nice time to swim! The sea level is only -0.5"
+[1] "5 PM is a nice time to swim! The sea level is only -0.259"
+[1] "6 PM is a nice time to swim! The sea level is only 0"
+[1] "7 PM is a nice time to swim! The sea level is only 0.259"
+[1] "8 PM is a nice time to swim! The sea level is only 0.5"
+[1] "9 PM is a nice time to swim! The sea level is only 0.707"
+[1] "The time is 10 PM and the sea level is getting deep:  0.866"
+[1] "The time is 11 PM and the sea level is getting deep:  0.966"
+[1] "The time is 12 PM and the sea level is getting deep:  1"</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./summary.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Lesson_2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic Algorithms</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
